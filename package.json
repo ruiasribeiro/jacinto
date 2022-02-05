@@ -2,8 +2,11 @@
   "name": "jacinto",
   "version": "1.0.0",
   "description": "Multipurpose Discord bot for personal-ish use.",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/main.js",
   "scripts": {
+    "register": "npx tsc && node dist/register-commands.js",
+    "start": "npx tsc && node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,9 +20,19 @@
   },
   "homepage": "https://github.com/raddrax/jacinto#readme",
   "dependencies": {
-    "discord.js": "^13.6.0"
+    "@discordjs/builders": "^0.12.0",
+    "@discordjs/rest": "^0.3.0",
+    "discord-api-types": "^0.26.1",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.8.0"
+    "@types/node": "^17.0.15",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.5"
   }
 }
