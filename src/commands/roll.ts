@@ -35,60 +35,42 @@ export const data = new SlashCommandBuilder()
             .setDescription("Picks a random user order in the current channel.")
     );
 
-export async function execute(interaction: CommandInteraction) {
-    const subc = interaction.options.getSubcommand();
+async function executeNumber(interaction: CommandInteraction) {
+    const min = interaction.options.getInteger("min");
+    const max = interaction.options.getInteger("max");
 
-    if (subc === "number") {
-        const min = interaction.options.getInteger("min");
-        const max = interaction.options.getInteger("max");
+    if (min <= max) {
+        const value = Math.floor(Math.random() * (max - min + 1)) + min;
+        await interaction.reply(`The answer is ${value}!`);
+    } else {
+        await interaction.reply({
+            embeds: [error.create("`min` must be smaller or equal to `max`")],
+            ephemeral: true,
+        });
+    }
+}
 
-        if (min <= max) {
-            const value = Math.floor(Math.random() * (max - min + 1)) + min;
-            await interaction.reply(`The answer is ${value}!`);
-        } else {
-            await interaction.reply({
-                embeds: [
-                    error.create("`min` must be smaller or equal to `max`"),
-                ],
-                ephemeral: true,
-            });
-        }
-    } else if (subc === "user") {
-        await interaction.guild.members.fetch();
+async function executeUser(
+    interaction: CommandInteraction,
+    subcommand: string
+) {
+    await interaction.guild.members.fetch();
 
-        const members = interaction.guild.channels.cache.get(
-            interaction.channelId
-        ).members;
+    const members = interaction.guild.channels.cache.get(
+        interaction.channelId
+    ).members;
 
-        if (members instanceof Collection) {
-            const users = members.filter((member) => !member.user.bot);
-            const array = Array.from(users);
+    if (members instanceof Collection) {
+        const users = members.filter((member) => !member.user.bot);
+        const array = Array.from(users);
 
+        if (subcommand === "user") {
             await interaction.reply(
                 `The winner is ${
                     array[Math.floor(Math.random() * array.length)][1]
                 }!`
             );
         } else {
-            await interaction.reply({
-                embeds: [
-                    error.create(
-                        "Internal Error: Unexpected type for members."
-                    ),
-                ],
-                ephemeral: true,
-            });
-        }
-    } else if (subc === "users") {
-        await interaction.guild.members.fetch();
-
-        const members = interaction.guild.channels.cache.get(
-            interaction.channelId
-        ).members;
-
-        if (members instanceof Collection) {
-            const users = members.filter((member) => !member.user.bot);
-            const array = Array.from(users);
             shuffleArray(array);
 
             let response = "The results are: \n";
@@ -97,20 +79,33 @@ export async function execute(interaction: CommandInteraction) {
             }
 
             await interaction.reply(response);
-        } else {
-            await interaction.reply({
-                embeds: [
-                    error.create(
-                        "Internal Error: Unexpected type for members."
-                    ),
-                ],
-                ephemeral: true,
-            });
         }
     } else {
         await interaction.reply({
-            embeds: [error.create("Not implemented.")],
+            embeds: [
+                error.create("Internal Error: Unexpected type for members."),
+            ],
             ephemeral: true,
         });
+    }
+}
+
+export async function execute(interaction: CommandInteraction) {
+    const subcommand = interaction.options.getSubcommand();
+
+    switch (subcommand) {
+        case "number":
+            executeNumber(interaction);
+            break;
+        case "user":
+        case "users":
+            executeUser(interaction, subcommand);
+            break;
+        default:
+            await interaction.reply({
+                embeds: [error.create("Not implemented.")],
+                ephemeral: true,
+            });
+            break;
     }
 }
