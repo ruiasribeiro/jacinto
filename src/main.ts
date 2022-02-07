@@ -6,7 +6,9 @@ import * as magic from "./commands/magic.js";
 import * as ping from "./commands/ping.js";
 import * as roll from "./commands/roll.js";
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS],
+});
 
 const commands = new Collection<
     string,
@@ -17,8 +19,8 @@ commands.set(magic.data.name, magic.execute);
 commands.set(ping.data.name, ping.execute);
 commands.set(roll.data.name, roll.execute);
 
-client.once("ready", () => {
-    console.log("Ready!");
+client.once("ready", (client) => {
+    console.log(`Ready! Logged in as ${client.user.username}.`);
 });
 
 client.on("interactionCreate", async (interaction) => {
