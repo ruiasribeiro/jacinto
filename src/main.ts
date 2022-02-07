@@ -6,6 +6,7 @@ import * as magic from "./commands/magic.js";
 import * as ping from "./commands/ping.js";
 import * as roll from "./commands/roll.js";
 import * as schedule from "./commands/schedule.js";
+import * as error from "./embeds/error.js";
 
 // Instantiate a new client with the given intents.
 const client = new Client({
@@ -39,10 +40,10 @@ client.on("interactionCreate", async (interaction) => {
 
     try {
         await execute(interaction);
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        console.error(err);
         await interaction.reply({
-            content: "There was an error while executing this command!",
+            embeds: [error.create(`Internal Error: ${err}`)],
             ephemeral: true,
         });
     }

@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, MessageEmbed } from "discord.js";
-
 import * as chrono from "chrono-node";
+
+import * as error from "../embeds/error.js";
 
 export const data = new SlashCommandBuilder()
     .setName("schedule")
@@ -17,10 +18,17 @@ export async function execute(interaction: CommandInteraction) {
     const input = interaction.options.getString("date");
     const date = chrono.parseDate(input);
 
-    const embed = new MessageEmbed()
-        .setTitle("Schedule")
-        .setColor("BLUE")
-        .setDescription(`Parsed ${date.toLocaleString()}.`);
+    if (date !== null) {
+        const embed = new MessageEmbed()
+            .setTitle("Schedule")
+            .setColor("BLUE")
+            .setDescription(`Parsed ${date.toLocaleString()}.`);
 
-    await interaction.reply({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
+    } else {
+        await interaction.reply({
+            embeds: [error.create("Invalid date.")],
+            ephemeral: true,
+        });
+    }
 }
