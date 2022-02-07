@@ -7,6 +7,7 @@ import * as magic from "./commands/magic.js";
 import * as ping from "./commands/ping.js";
 import * as roll from "./commands/roll.js";
 
+// List of commands to be registered.
 const commands = [magic.data.toJSON(), ping.data.toJSON(), roll.data.toJSON()];
 
 const rest = new REST({ version: "9" }).setToken(token);
