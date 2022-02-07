@@ -6,9 +6,15 @@ import { token, clientId, guildId } from "./env-vars.js";
 import * as magic from "./commands/magic.js";
 import * as ping from "./commands/ping.js";
 import * as roll from "./commands/roll.js";
+import * as schedule from "./commands/schedule.js";
 
 // List of commands to be registered.
-const commands = [magic.data.toJSON(), ping.data.toJSON(), roll.data.toJSON()];
+const commands = [
+    magic.data.toJSON(),
+    ping.data.toJSON(),
+    roll.data.toJSON(),
+    schedule.data.toJSON(),
+];
 
 const rest = new REST({ version: "9" }).setToken(token);
 

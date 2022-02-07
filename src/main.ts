@@ -5,6 +5,7 @@ import { token } from "./env-vars.js";
 import * as magic from "./commands/magic.js";
 import * as ping from "./commands/ping.js";
 import * as roll from "./commands/roll.js";
+import * as schedule from "./commands/schedule.js";
 
 // Instantiate a new client with the given intents.
 const client = new Client({
@@ -20,6 +21,7 @@ const commands = new Collection<
 commands.set(magic.data.name, magic.execute);
 commands.set(ping.data.name, ping.execute);
 commands.set(roll.data.name, roll.execute);
+commands.set(schedule.data.name, schedule.execute);
 
 // Defines what should be executed when the bot starts.
 client.once("ready", (client) => {
