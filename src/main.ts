@@ -19,9 +19,13 @@ const commands = new Collection<
     string,
     (interaction: CommandInteraction) => Promise<void>
 >();
+// Replies with a random Magic 8-Ball answer.
 commands.set(magic.data.name, magic.execute);
+// Replies with "Pong!". Meant for debugging purposes.
 commands.set(ping.data.name, ping.execute);
+// Picks a random something, either numbers or users.
 commands.set(roll.data.name, roll.execute);
+// Schedules events.
 commands.set(schedule.data.name, schedule.execute);
 
 // Defines what should be executed when the bot starts.

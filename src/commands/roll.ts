@@ -2,7 +2,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { Collection, CommandInteraction } from "discord.js";
 
 import * as error from "../embeds/error.js";
-import { shuffleArray } from "../utils/shuffle.js";
+import { shuffle } from "../utils/array.js";
+import { randomInRange } from "../utils/random.js";
 
 export const data = new SlashCommandBuilder()
     .setName("roll")
@@ -40,7 +41,7 @@ async function executeNumber(interaction: CommandInteraction) {
     const max = interaction.options.getInteger("max");
 
     if (min <= max) {
-        const value = Math.floor(Math.random() * (max - min + 1)) + min;
+        const value = randomInRange(min, max);
         await interaction.reply(`The answer is ${value}!`);
     } else {
         await interaction.reply({
@@ -65,15 +66,16 @@ async function executeUser(
         const array = Array.from(users);
 
         let content: string;
-        if (subcommand === "user") {
-            content = `The winner is ${
-                array[Math.floor(Math.random() * array.length)][1]
-            }!`;
+        if (array.length === 0) {
+            content = "No users available for roll.";
+        } else if (subcommand === "user") {
+            const index = randomInRange(0, array.length - 1);
+            content = `The winner is ${array[index][1]}!`;
         } else {
-            shuffleArray(array);
-            content = "The results are: \n";
+            shuffle(array);
+            content = "Ranking: \n";
             for (let i = 1; i <= array.length; i++) {
-                content += `${i}. ${array[i - 1][1]}\n`;
+                content += `\`${i}.\` ${array[i - 1][1]}\n`;
             }
         }
 
