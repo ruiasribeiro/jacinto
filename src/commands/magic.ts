@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { randomInRange } from "../utils/random";
+import { randomInRange } from "../utils/random.js";
 
 const answers = [
     "It is certain.",

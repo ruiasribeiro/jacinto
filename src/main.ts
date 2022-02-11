@@ -2,6 +2,7 @@ import { Client, Collection, CommandInteraction, Intents } from "discord.js";
 
 import { token } from "./env-vars.js";
 
+import * as help from "./commands/help.js";
 import * as magic from "./commands/magic.js";
 import * as ping from "./commands/ping.js";
 import * as roll from "./commands/roll.js";
@@ -19,6 +20,8 @@ const commands = new Collection<
     string,
     (interaction: CommandInteraction) => Promise<void>
 >();
+// Replies with the help message.
+commands.set(help.data.name, help.execute);
 // Replies with a random Magic 8-Ball answer.
 commands.set(magic.data.name, magic.execute);
 // Replies with "Pong!". Meant for debugging purposes.
