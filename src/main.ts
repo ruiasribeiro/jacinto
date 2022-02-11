@@ -2,6 +2,7 @@ import { Client, Collection, CommandInteraction, Intents } from "discord.js";
 
 import { token } from "./env-vars.js";
 
+import * as food from "./commands/food.js";
 import * as help from "./commands/help.js";
 import * as magic from "./commands/magic.js";
 import * as ping from "./commands/ping.js";
@@ -20,6 +21,8 @@ const commands = new Collection<
     string,
     (interaction: CommandInteraction) => Promise<void>
 >();
+// Replies with the food menu @ UMinho.
+commands.set(food.data.name, food.execute);
 // Replies with the help message.
 commands.set(help.data.name, help.execute);
 // Replies with a random Magic 8-Ball answer.
@@ -39,20 +42,24 @@ client.once("ready", (client) => {
 // Defines what happens when an interaction (a slash command execution, in this
 // case) is created.
 client.on("interactionCreate", async (interaction) => {
-    if (!interaction.isCommand()) return;
+    if (interaction.isCommand()) {
+        const execute = commands.get(interaction.commandName);
 
-    const execute = commands.get(interaction.commandName);
+        if (!execute) return;
 
-    if (!execute) return;
-
-    try {
-        await execute(interaction);
-    } catch (err) {
-        console.error(err);
-        await interaction.reply({
-            embeds: [error.create(`Internal Error: ${err}`)],
-            ephemeral: true,
-        });
+        try {
+            await execute(interaction);
+        } catch (err) {
+            console.error(err);
+            await interaction.reply({
+                embeds: [error.create(`Internal Error: ${err}`)],
+                ephemeral: true,
+            });
+        }
+    } else if (interaction.isSelectMenu()) {
+        await interaction.reply("to-do");
+    } else {
+        return;
     }
 });
 
