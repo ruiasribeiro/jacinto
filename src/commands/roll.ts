@@ -2,8 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { Collection, CommandInteraction } from "discord.js";
 
 import * as error from "../embeds/error.js";
-import { shuffle } from "../utils/array.js";
-import { randomInRange } from "../utils/random.js";
+import { randomInRange, shuffle } from "../utils/random.js";
 
 export const data = new SlashCommandBuilder()
     .setName("roll")
