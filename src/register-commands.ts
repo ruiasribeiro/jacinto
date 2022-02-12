@@ -7,7 +7,7 @@ import * as food from "./commands/food.js";
 import * as help from "./commands/help.js";
 import * as magic from "./commands/magic.js";
 import * as roll from "./commands/roll.js";
-import * as schedule from "./commands/schedule.js";
+// import * as schedule from "./commands/schedule.js";
 
 // List of commands to be registered.
 const commands = [
@@ -15,7 +15,7 @@ const commands = [
     help.data.toJSON(),
     magic.data.toJSON(),
     roll.data.toJSON(),
-    schedule.data.toJSON(),
+    // schedule.data.toJSON(),
 ];
 
 const rest = new REST({ version: "9" }).setToken(token);

@@ -6,7 +6,7 @@ import * as food from "./commands/food.js";
 import * as help from "./commands/help.js";
 import * as magic from "./commands/magic.js";
 import * as roll from "./commands/roll.js";
-import * as schedule from "./commands/schedule.js";
+// import * as schedule from "./commands/schedule.js";
 import * as error from "./embeds/error.js";
 
 // Instantiate a new client with the given intents.
@@ -29,7 +29,7 @@ commands.set(magic.data.name, magic.execute);
 // Picks a random something, either numbers or users.
 commands.set(roll.data.name, roll.execute);
 // Schedules events.
-commands.set(schedule.data.name, schedule.execute);
+// commands.set(schedule.data.name, schedule.execute);
 
 // Defines what should be executed when the bot starts.
 client.once("ready", (client) => {
