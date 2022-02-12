@@ -28,8 +28,13 @@ export async function execute(interaction: CommandInteraction) {
     await fetch(
         "http://www.sas.uminho.pt/Default.aspx?tabid=10&pageid=26&lang=pt-PT"
     )
-        .then((response) => response.text())
-        .then(async (data) => {
+        .then((response) => {
+            return response.arrayBuffer();
+        })
+        .then(async (buffer) => {
+            const decoder = new TextDecoder("iso-8859-1");
+            const data = decoder.decode(buffer);
+
             const $ = cheerio.load(data);
             const links = extractLinks($);
 
@@ -48,7 +53,7 @@ export async function execute(interaction: CommandInteraction) {
                     .addOptions(menus)
             );
 
-            await interaction.reply({ content: "Menus", components: [row] });
+            await interaction.reply({ content: "Pick a menu:", components: [row] });
         })
         .catch(
             async (err) =>
