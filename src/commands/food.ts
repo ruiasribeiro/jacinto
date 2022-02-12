@@ -2,24 +2,29 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import * as cheerio from "cheerio";
 import {
     CommandInteraction,
+    Interaction,
     MessageActionRow,
     MessageSelectMenu,
+    SelectMenuInteraction,
 } from "discord.js";
 import fetch from "node-fetch";
 
 import * as error from "../embeds/error.js";
 
+const name = "food";
+
 export const data = new SlashCommandBuilder()
-    .setName("food")
+    .setName(name)
     .setDescription("Replies with the food menu @ UMinho.");
 
-export async function execute(interaction: CommandInteraction) {
+async function replyToCommand(interaction: CommandInteraction) {
     const extractLinks = ($: cheerio.CheerioAPI) => [
         ...new Set(
             $("#_ctl0_myDataList tbody tr")
                 .map((_, tr) => {
                     const a = $(tr).find("td ul li a");
-                    return { name: a.text(), link: a.attr("href") };
+                    const [name, date] = a.text().split(" - ");
+                    return { name, date, link: a.attr("href") };
                 })
                 .toArray()
         ),
@@ -38,22 +43,25 @@ export async function execute(interaction: CommandInteraction) {
             const $ = cheerio.load(data);
             const links = extractLinks($);
 
-            const menus = links.map(({ name, link }) => {
+            const menus = links.map(({ name, date, link }) => {
                 return {
                     label: name,
-                    // description: "This is a description",
-                    value: `http://www.sas.uminho.pt/${link}\n`,
+                    description: date,
+                    value: `http://www.sas.uminho.pt/${link}`,
                 };
             });
 
             const row = new MessageActionRow().addComponents(
                 new MessageSelectMenu()
-                    .setCustomId("select")
+                    .setCustomId(name)
                     .setPlaceholder("Nothing selected")
                     .addOptions(menus)
             );
 
-            await interaction.reply({ content: "Pick a menu:", components: [row] });
+            await interaction.reply({
+                content: "Pick a menu:",
+                components: [row],
+            });
         })
         .catch(
             async (err) =>
@@ -62,4 +70,17 @@ export async function execute(interaction: CommandInteraction) {
                     ephemeral: true,
                 })
         );
+}
+
+export async function replyToSelectMenu(interaction: SelectMenuInteraction) {
+    const link = interaction.values[0];
+    await interaction.update({ content: encodeURI(link), components: [] });
+}
+
+export async function execute(interaction: Interaction) {
+    if (interaction.isCommand()) {
+        await replyToCommand(interaction);
+    } else if (interaction.isSelectMenu()) {
+        await replyToSelectMenu(interaction);
+    }
 }

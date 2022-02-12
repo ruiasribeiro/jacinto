@@ -1,4 +1,4 @@
-import { Client, Collection, CommandInteraction, Intents } from "discord.js";
+import { Client, Collection, Intents, Interaction } from "discord.js";
 
 import { token } from "./env-vars.js";
 
@@ -19,7 +19,7 @@ const client = new Client({
 // Should be all those that are specified on the register-commands file.
 const commands = new Collection<
     string,
-    (interaction: CommandInteraction) => Promise<void>
+    (interaction: Interaction) => Promise<void>
 >();
 // Replies with the food menu @ UMinho.
 commands.set(food.data.name, food.execute);
@@ -39,11 +39,13 @@ client.once("ready", (client) => {
     console.log(`Ready! Logged in as ${client.user.username}.`);
 });
 
-// Defines what happens when an interaction (a slash command execution, in this
-// case) is created.
+// Defines what happens when an interaction is created.
 client.on("interactionCreate", async (interaction) => {
-    if (interaction.isCommand()) {
-        const execute = commands.get(interaction.commandName);
+    if (interaction.isCommand() || interaction.isSelectMenu()) {
+        const name = interaction.isCommand()
+            ? interaction.commandName
+            : interaction.customId;
+        const execute = commands.get(name);
 
         if (!execute) return;
 
@@ -56,10 +58,6 @@ client.on("interactionCreate", async (interaction) => {
                 ephemeral: true,
             });
         }
-    } else if (interaction.isSelectMenu()) {
-        await interaction.reply("to-do");
-    } else {
-        return;
     }
 });
 
