@@ -5,7 +5,6 @@ import { token } from "./env-vars.js";
 import * as food from "./commands/food.js";
 import * as help from "./commands/help.js";
 import * as magic from "./commands/magic.js";
-import * as ping from "./commands/ping.js";
 import * as roll from "./commands/roll.js";
 import * as schedule from "./commands/schedule.js";
 import * as error from "./embeds/error.js";
@@ -27,8 +26,6 @@ commands.set(food.data.name, food.execute);
 commands.set(help.data.name, help.execute);
 // Replies with a random Magic 8-Ball answer.
 commands.set(magic.data.name, magic.execute);
-// Replies with "Pong!". Meant for debugging purposes.
-commands.set(ping.data.name, ping.execute);
 // Picks a random something, either numbers or users.
 commands.set(roll.data.name, roll.execute);
 // Schedules events.

@@ -6,7 +6,6 @@ import { token, clientId, guildId } from "./env-vars.js";
 import * as food from "./commands/food.js";
 import * as help from "./commands/help.js";
 import * as magic from "./commands/magic.js";
-import * as ping from "./commands/ping.js";
 import * as roll from "./commands/roll.js";
 import * as schedule from "./commands/schedule.js";
 
@@ -15,7 +14,6 @@ const commands = [
     food.data.toJSON(),
     help.data.toJSON(),
     magic.data.toJSON(),
-    ping.data.toJSON(),
     roll.data.toJSON(),
     schedule.data.toJSON(),
 ];
