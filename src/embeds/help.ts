@@ -9,7 +9,8 @@ export function create(): MessageEmbed {
     return new MessageEmbed()
         .setTitle("Help")
         .setColor("BLUE")
-        .addField("/help", "Shows this message")
-        .addField("/magic", "Shows a random magic 8-ball answer")
-        .addField("/roll", "Picks a random number/user/users");
+        .addField("📚 /help", "Shows this message")
+        .addField("🥞 /food", "Shows the food menu @ UMinho", true)
+        .addField("🎱 /magic", "Shows a random magic 8-ball answer", true)
+        .addField("🎲 /roll", "Picks a random number/user/users", true);
 }

@@ -11,6 +11,7 @@ import fetch from "node-fetch";
 
 import * as error from "../embeds/error.js";
 
+/** Command name. */
 const name = "food";
 
 export const data = new SlashCommandBuilder()
@@ -18,6 +19,7 @@ export const data = new SlashCommandBuilder()
     .setDescription("Replies with the food menu @ UMinho.");
 
 async function replyToCommand(interaction: CommandInteraction) {
+    // Procedure to extract food menu links from the page.
     const extractLinks = ($: cheerio.CheerioAPI) => [
         ...new Set(
             $("#_ctl0_myDataList tbody tr")
@@ -37,12 +39,15 @@ async function replyToCommand(interaction: CommandInteraction) {
             return response.arrayBuffer();
         })
         .then(async (buffer) => {
+            // Decode text with the correct encoding.
             const decoder = new TextDecoder("iso-8859-1");
             const data = decoder.decode(buffer);
 
+            // Extract links with Cheerio.
             const $ = cheerio.load(data);
             const links = extractLinks($);
 
+            // Map links to the format expected by discord.js.
             const menus = links.map(({ name, date, link }) => {
                 return {
                     label: name,
@@ -51,6 +56,7 @@ async function replyToCommand(interaction: CommandInteraction) {
                 };
             });
 
+            // Create select menu.
             const row = new MessageActionRow().addComponents(
                 new MessageSelectMenu()
                     .setCustomId(name)
@@ -58,6 +64,7 @@ async function replyToCommand(interaction: CommandInteraction) {
                     .addOptions(menus)
             );
 
+            // Send message.
             await interaction.reply({
                 content: "Pick a menu:",
                 components: [row],
@@ -72,7 +79,7 @@ async function replyToCommand(interaction: CommandInteraction) {
         );
 }
 
-export async function replyToSelectMenu(interaction: SelectMenuInteraction) {
+async function replyToSelectMenu(interaction: SelectMenuInteraction) {
     const link = interaction.values[0];
     await interaction.update({ content: encodeURI(link), components: [] });
 }
