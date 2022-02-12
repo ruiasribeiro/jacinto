@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { Collection, CommandInteraction } from "discord.js";
 
 import * as error from "../embeds/error.js";
-import { shuffleArray } from "../utils/shuffle.js";
+import { randomInRange, shuffle } from "../utils/random.js";
 
 export const data = new SlashCommandBuilder()
     .setName("roll")
@@ -40,7 +40,7 @@ async function executeNumber(interaction: CommandInteraction) {
     const max = interaction.options.getInteger("max");
 
     if (min <= max) {
-        const value = Math.floor(Math.random() * (max - min + 1)) + min;
+        const value = randomInRange(min, max);
         await interaction.reply(`The answer is ${value}!`);
     } else {
         await interaction.reply({
@@ -64,22 +64,24 @@ async function executeUser(
         const users = members.filter((member) => !member.user.bot);
         const array = Array.from(users);
 
-        if (subcommand === "user") {
-            await interaction.reply(
-                `The winner is ${
-                    array[Math.floor(Math.random() * array.length)][1]
-                }!`
-            );
+        let content: string;
+        if (array.length === 0) {
+            content = "No users available for roll.";
+        } else if (subcommand === "user") {
+            const index = randomInRange(0, array.length - 1);
+            content = `The winner is ${array[index][1]}!`;
         } else {
-            shuffleArray(array);
-
-            let response = "The results are: \n";
+            shuffle(array);
+            content = "Ranking: \n";
             for (let i = 1; i <= array.length; i++) {
-                response += `${i}. ${array[i - 1][1]}\n`;
+                content += `\`${i}.\` ${array[i - 1][1]}\n`;
             }
-
-            await interaction.reply(response);
         }
+
+        await interaction.reply({
+            content: content,
+            allowedMentions: { users: [] },
+        });
     } else {
         await interaction.reply({
             embeds: [
