@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
+import { Interaction } from "discord.js";
 import { randomInRange } from "../utils/random.js";
 
 const answers = [
@@ -30,7 +30,11 @@ export const data = new SlashCommandBuilder()
     .setName("magic")
     .setDescription("Replies with a random Magic 8-Ball answer.");
 
-export async function execute(interaction: CommandInteraction) {
+export async function execute(interaction: Interaction) {
+    if (!interaction.isCommand()) {
+        throw new Error("Interaction provided isn't a command.");
+    }
+
     const num = randomInRange(0, length - 1);
 
     await interaction.reply(answers[num]);

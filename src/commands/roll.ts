@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { Collection, CommandInteraction } from "discord.js";
+import { Collection, CommandInteraction, Interaction } from "discord.js";
 
 import * as error from "../embeds/error.js";
 import { randomInRange, shuffle } from "../utils/random.js";
@@ -37,7 +37,14 @@ export const data = new SlashCommandBuilder()
 
 async function executeNumber(interaction: CommandInteraction) {
     const min = interaction.options.getInteger("min");
+    if (min === null) {
+        throw new Error("Missing min attribute.");
+    }
+
     const max = interaction.options.getInteger("max");
+    if (max === null) {
+        throw new Error("Missing max attribute.");
+    }
 
     if (min <= max) {
         const value = randomInRange(min, max);
@@ -54,11 +61,13 @@ async function executeUser(
     interaction: CommandInteraction,
     subcommand: string
 ) {
-    await interaction.guild.members.fetch();
+    await interaction.guild?.members.fetch();
 
-    const members = interaction.guild.channels.cache.get(
+    const channel = interaction.guild?.channels.cache.get(
         interaction.channelId
-    ).members;
+    );
+
+    const members = channel?.members;
 
     if (members instanceof Collection) {
         const users = members.filter((member) => !member.user.bot);
@@ -92,7 +101,11 @@ async function executeUser(
     }
 }
 
-export async function execute(interaction: CommandInteraction) {
+export async function execute(interaction: Interaction) {
+    if (!interaction.isCommand()) {
+        throw new Error("Interaction provided isn't a command.");
+    }
+
     const subcommand = interaction.options.getSubcommand();
 
     switch (subcommand) {

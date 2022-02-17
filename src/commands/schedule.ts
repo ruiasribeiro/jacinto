@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { Interaction, MessageEmbed } from "discord.js";
 import * as chrono from "chrono-node";
 
 import * as error from "../embeds/error.js";
@@ -14,8 +14,16 @@ export const data = new SlashCommandBuilder()
             .setRequired(true)
     );
 
-export async function execute(interaction: CommandInteraction) {
+export async function execute(interaction: Interaction) {
+    if (!interaction.isCommand()) {
+        throw new Error("Interaction provided isn't a command.");
+    }
+
     const input = interaction.options.getString("date");
+    if (input === null) {
+        throw new Error("Missing input attribute.");
+    }
+
     const date = chrono.parseDate(input);
 
     if (date !== null) {

@@ -9,6 +9,24 @@ import * as magic from "./commands/magic.js";
 import * as roll from "./commands/roll.js";
 // import * as schedule from "./commands/schedule.js";
 
+// Check if bot token exists in the environmental variables.
+if (!token) {
+    console.error("Token not found.");
+    process.exit(1);
+}
+
+// Check if client ID exists in the environmental variables.
+if (!clientId) {
+    console.error("Client ID not found.");
+    process.exit(1);
+}
+
+// Check if guild ID exists in the environmental variables.
+if (!guildId) {
+    console.error("Guild ID not found.");
+    process.exit(1);
+}
+
 // List of commands to be registered.
 const commands = [
     food.data.toJSON(),
