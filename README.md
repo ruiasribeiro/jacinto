@@ -10,7 +10,7 @@ Multipurpose Discord bot for personal-ish use.
 
 ## Requirements
 
--   [Node.js](https://nodejs.org/)
+-   A fairly recent version of [Node.js](https://nodejs.org/), at least 13+.
 
 ## Setup
 
