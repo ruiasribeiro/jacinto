@@ -21,12 +21,6 @@ if (!clientId) {
     process.exit(1);
 }
 
-// Check if guild ID exists in the environmental variables.
-if (!guildId) {
-    console.error("Guild ID not found.");
-    process.exit(1);
-}
-
 // List of commands to be registered.
 const commands = [
     food.data.toJSON(),
@@ -38,6 +32,19 @@ const commands = [
 
 const rest = new REST({ version: "9" }).setToken(token);
 
-rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
+// Check if guild ID exists in the environmental variables.
+// if (!guildId) {
+//     console.error("Guild ID not found.");
+//     process.exit(1);
+// }
+
+// Register commands for a single guild (useful for development, since it has a
+// faster update rate).
+// rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
+//     .then(() => console.log("Successfully registered application guild commands."))
+//     .catch(console.error);
+
+// Register global commands.
+rest.put(Routes.applicationCommands(clientId), { body: commands })
     .then(() => console.log("Successfully registered application commands."))
     .catch(console.error);
