@@ -61,6 +61,18 @@ async function executeUser(
     interaction: CommandInteraction,
     subcommand: string
 ) {
+    if (!interaction.inGuild()) {
+        await interaction.reply({
+            embeds: [
+                error.create(
+                    "Rolling of user(s) is not available outside of servers."
+                ),
+            ],
+            ephemeral: true,
+        });
+        return;
+    }
+
     await interaction.guild?.members.fetch();
 
     const channel = interaction.guild?.channels.cache.get(
