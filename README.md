@@ -6,6 +6,7 @@ Multipurpose Discord bot for personal-ish use.
 
 -   🥞 Shows the food menu @ UMinho
 -   🎱 Shows a random magic 8-ball answer
+-   📊 Creates a poll with the given options
 -   🎲 Picks a random number/user/users
 
 ## Requirements

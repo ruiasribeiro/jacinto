@@ -5,6 +5,7 @@ import { token } from "./env-vars.js";
 import * as food from "./commands/food.js";
 import * as help from "./commands/help.js";
 import * as magic from "./commands/magic.js";
+import * as poll from "./commands/poll.js";
 import * as roll from "./commands/roll.js";
 // import * as schedule from "./commands/schedule.js";
 import * as error from "./embeds/error.js";
@@ -20,15 +21,11 @@ const commands = new Collection<
     string,
     (interaction: Interaction) => Promise<void>
 >();
-// Replies with the food menu @ UMinho.
 commands.set(food.data.name, food.execute);
-// Replies with the help message.
 commands.set(help.data.name, help.execute);
-// Replies with a random Magic 8-Ball answer.
 commands.set(magic.data.name, magic.execute);
-// Picks a random something, either numbers or users.
+commands.set(poll.data.name, poll.execute);
 commands.set(roll.data.name, roll.execute);
-// Schedules events.
 // commands.set(schedule.data.name, schedule.execute);
 
 // Defines what should be executed when the bot starts.
