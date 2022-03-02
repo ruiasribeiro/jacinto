@@ -96,4 +96,8 @@ export async function execute(interaction: Interaction) {
     if (message instanceof Message) {
         emoji.forEach((emote) => message.react(emote));
     }
+
+
+
+
 }
