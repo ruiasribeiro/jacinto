@@ -7,10 +7,18 @@ import { MessageEmbed } from "discord.js";
  */
 export function create(): MessageEmbed {
     return new MessageEmbed()
-        .setTitle("Help")
-        .setColor("BLUE")
-        .addField("📚 /help", "Shows this message")
+        .setTitle("📚 Help")
+        .setColor("BLURPLE")
         .addField("🥞 /food", "Shows the food menu @ UMinho", true)
         .addField("🎱 /magic", "Shows a random magic 8-ball answer", true)
-        .addField("🎲 /roll", "Picks a random number/user/users", true);
+        .addField(
+            "📊 /poll (in servers)",
+            "Creates a poll with the given options",
+            true
+        )
+        .addField(
+            "🎲 /roll (in servers)",
+            "Picks a random number/user/users",
+            true
+        );
 }
