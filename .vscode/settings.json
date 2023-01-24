@@ -1,7 +1,7 @@
 {
-  "eslint.validate": ["javascript"],
+    "eslint.validate": ["javascript"],
 
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }

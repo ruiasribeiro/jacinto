@@ -4,13 +4,13 @@ Multi-purpose Discord bot for personal-ish use.
 
 ## Features
 
-- 🥞 Shows the food menu @ UMinho
-- 🎱 Shows a random magic 8-ball answer
-- 🎲 Picks a random number/user/users
+-   🥞 Shows the food menu @ UMinho
+-   🎱 Shows a random magic 8-ball answer
+-   🎲 Picks a random number/user/users
 
 ## Requirements
 
-- [Node.js](https://nodejs.org/) 16.9 or higher (tested with 18.13).
+-   [Node.js](https://nodejs.org/) 16.9 or higher (tested with 18.13).
 
 ## Setup
 

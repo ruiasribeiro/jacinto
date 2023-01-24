@@ -1,4 +1,10 @@
-import { ChatInputCommandInteraction, Collection, CommandInteraction, Interaction, SlashCommandBuilder } from "discord.js";
+import {
+    ChatInputCommandInteraction,
+    Collection,
+    CommandInteraction,
+    Interaction,
+    SlashCommandBuilder,
+} from "discord.js";
 
 import * as error from "../embeds/error.js";
 import { randomInRange, shuffle } from "../utils/random.js";

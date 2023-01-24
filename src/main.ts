@@ -1,4 +1,10 @@
-import { Client, Collection, Events, GatewayIntentBits, Interaction } from "discord.js";
+import {
+    Client,
+    Collection,
+    Events,
+    GatewayIntentBits,
+    Interaction,
+} from "discord.js";
 
 import { token } from "./env-vars.js";
 

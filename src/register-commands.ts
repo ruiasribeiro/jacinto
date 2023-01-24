@@ -38,7 +38,9 @@ if (!guildId) {
 // Register commands for a single guild (useful for development, since it has a
 // faster update rate).
 rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
-    .then(() => console.log("Successfully registered application guild commands."))
+    .then(() =>
+        console.log("Successfully registered application guild commands.")
+    )
     .catch(console.error);
 
 // Register global commands.
