@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { Collection, CommandInteraction, Interaction } from "discord.js";
+import { ChatInputCommandInteraction, Collection, CommandInteraction, Interaction, SlashCommandBuilder } from "discord.js";
 
 import * as error from "../embeds/error.js";
 import { randomInRange, shuffle } from "../utils/random.js";
@@ -35,7 +34,7 @@ export const data = new SlashCommandBuilder()
             .setDescription("Picks a random user order in the current channel.")
     );
 
-async function executeNumber(interaction: CommandInteraction) {
+async function executeNumber(interaction: ChatInputCommandInteraction) {
     const min = interaction.options.getInteger("min");
     if (min === null) {
         throw new Error("Missing min attribute.");
@@ -114,7 +113,7 @@ async function executeUser(
 }
 
 export async function execute(interaction: Interaction) {
-    if (!interaction.isCommand()) {
+    if (!interaction.isChatInputCommand()) {
         throw new Error("Interaction provided isn't a command.");
     }
 

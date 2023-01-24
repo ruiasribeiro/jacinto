@@ -1,14 +1,11 @@
-import { REST } from "@discordjs/rest";
-import { Routes } from "discord-api-types/v9";
+import { REST, Routes } from "discord.js";
 
 import { token, clientId, guildId } from "./env-vars.js";
 
 import * as food from "./commands/food.js";
 import * as help from "./commands/help.js";
 import * as magic from "./commands/magic.js";
-import * as poll from "./commands/poll.js";
 import * as roll from "./commands/roll.js";
-// import * as schedule from "./commands/schedule.js";
 
 // Check if bot token exists in the environmental variables.
 if (!token) {
@@ -27,24 +24,22 @@ const commands = [
     food.data.toJSON(),
     help.data.toJSON(),
     magic.data.toJSON(),
-    poll.data.toJSON(),
     roll.data.toJSON(),
-    // schedule.data.toJSON(),
 ];
 
-const rest = new REST({ version: "9" }).setToken(token);
+const rest = new REST({ version: "10" }).setToken(token);
 
 // Check if guild ID exists in the environmental variables.
-// if (!guildId) {
-//     console.error("Guild ID not found.");
-//     process.exit(1);
-// }
+if (!guildId) {
+    console.error("Guild ID not found.");
+    process.exit(1);
+}
 
 // Register commands for a single guild (useful for development, since it has a
 // faster update rate).
-// rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
-//     .then(() => console.log("Successfully registered application guild commands."))
-//     .catch(console.error);
+rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
+    .then(() => console.log("Successfully registered application guild commands."))
+    .catch(console.error);
 
 // Register global commands.
 rest.put(Routes.applicationCommands(clientId), { body: commands })

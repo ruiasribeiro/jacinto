@@ -1,24 +1,26 @@
-import { MessageEmbed } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 
 /**
  * Create an help embed.
  *
- * @returns A `MessageEmbed` with the help information.
+ * @returns A `EmbedBuilder` with the help information.
  */
-export function create(): MessageEmbed {
-    return new MessageEmbed()
+export function create(): EmbedBuilder {
+    return new EmbedBuilder()
         .setTitle("📚 Help")
-        .setColor("BLURPLE")
-        .addField("🥞 /food", "Shows the food menu @ UMinho", true)
-        .addField("🎱 /magic", "Shows a random magic 8-ball answer", true)
-        .addField(
-            "📊 /poll (in servers)",
-            "Creates a poll with the given options",
-            true
-        )
-        .addField(
-            "🎲 /roll (in servers)",
-            "Picks a random number/user/users",
-            true
-        );
+        .setColor(Colors.Blurple)
+        .addFields([
+            {
+                name: "🥞 /food",
+                value: "Shows the food menu @ UMinho",
+            },
+            {
+                name: "🎱 /magic",
+                value: "Shows a random magic 8-ball answer",
+            },
+            {
+                name: "🎲 /roll (in servers)",
+                value: "Picks a random number/user/users",
+            },
+        ]);
 }

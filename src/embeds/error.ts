@@ -1,14 +1,14 @@
-import { MessageEmbed } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 
 /**
  * Create an error embed.
  *
  * @param message Text to be included in the error.
- * @returns A `MessageEmbed` with the given message.
+ * @returns A `EmbedBuilder` with the given message.
  */
-export function create(message: string): MessageEmbed {
-    return new MessageEmbed()
+export function create(message: string): EmbedBuilder {
+    return new EmbedBuilder()
         .setTitle("Error")
-        .setColor("RED")
+        .setColor(Colors.Red)
         .setDescription(message);
 }

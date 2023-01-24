@@ -1,11 +1,11 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import * as cheerio from "cheerio";
 import {
+    ActionRowBuilder,
     CommandInteraction,
     Interaction,
-    MessageActionRow,
-    MessageSelectMenu,
-    SelectMenuInteraction,
+    SlashCommandBuilder,
+    StringSelectMenuBuilder,
+    StringSelectMenuInteraction,
 } from "discord.js";
 import fetch from "node-fetch";
 
@@ -24,7 +24,7 @@ async function replyToCommand(interaction: CommandInteraction) {
         ...new Set(
             $("#_ctl0_myDataList tbody tr")
                 .map((_, tr) => {
-                    const a = $(tr).find("td ul li a");
+                    const a: any = $(tr).find("td ul li a");
                     const [name, date] = a.text().split(" - ");
                     return { name, date, link: a.attr("href") };
                 })
@@ -57,12 +57,13 @@ async function replyToCommand(interaction: CommandInteraction) {
             });
 
             // Create select menu.
-            const row = new MessageActionRow().addComponents(
-                new MessageSelectMenu()
-                    .setCustomId(name)
-                    .setPlaceholder("Nothing selected")
-                    .addOptions(menus)
-            );
+            const row =
+                new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+                    new StringSelectMenuBuilder()
+                        .setCustomId(name)
+                        .setPlaceholder("Nothing selected")
+                        .addOptions(menus)
+                );
 
             // Send message.
             await interaction.reply({
@@ -79,7 +80,7 @@ async function replyToCommand(interaction: CommandInteraction) {
         );
 }
 
-async function replyToSelectMenu(interaction: SelectMenuInteraction) {
+async function replyToSelectMenu(interaction: StringSelectMenuInteraction) {
     const link = interaction.values[0];
     await interaction.update({ content: encodeURI(link), components: [] });
 }
@@ -87,7 +88,7 @@ async function replyToSelectMenu(interaction: SelectMenuInteraction) {
 export async function execute(interaction: Interaction) {
     if (interaction.isCommand()) {
         await replyToCommand(interaction);
-    } else if (interaction.isSelectMenu()) {
+    } else if (interaction.isStringSelectMenu()) {
         await replyToSelectMenu(interaction);
     }
 }
