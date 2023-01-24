@@ -1,41 +1,39 @@
 {
-  "name": "jacinto",
-  "version": "1.0.0",
-  "description": "Multipurpose Discord bot for personal-ish use.",
-  "type": "module",
-  "main": "dist/main.js",
-  "scripts": {
-    "register": "npx tsc && node dist/register-commands.js",
-    "start": "npx tsc && node .",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/raddrax/jacinto.git"
-  },
-  "author": "raddrax",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/raddrax/jacinto/issues"
-  },
-  "homepage": "https://github.com/raddrax/jacinto#readme",
-  "dependencies": {
-    "@discordjs/builders": "^0.12.0",
-    "@discordjs/rest": "^0.3.0",
-    "cheerio": "^1.0.0-rc.10",
-    "chrono-node": "^2.3.6",
-    "discord-api-types": "^0.26.1",
-    "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0",
-    "node-fetch": "^3.2.10"
-  },
-  "devDependencies": {
-    "@types/node": "^17.0.15",
-    "@typescript-eslint/eslint-plugin": "^5.10.2",
-    "@typescript-eslint/parser": "^5.10.2",
-    "eslint": "^8.8.0",
-    "eslint-config-prettier": "^8.3.0",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.5"
-  }
+    "name": "jacinto",
+    "version": "1.0.0",
+    "description": "Multi-purpose Discord bot for personal-ish use.",
+    "type": "module",
+    "main": "dist/main.js",
+    "scripts": {
+        "register": "npx tsc && node dist/register-commands.js",
+        "start": "npx tsc && node .",
+        "format:check": "npx prettier --check .",
+        "format:write": "npx prettier --write ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ruiasribeiro/jacinto.git"
+    },
+    "author": "ruiasribeiro",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ruiasribeiro/jacinto/issues"
+    },
+    "homepage": "https://github.com/ruiasribeiro/jacinto#readme",
+    "dependencies": {
+        "cheerio": "^1.0.0-rc.10",
+        "chrono-node": "^2.3.6",
+        "discord.js": "^14.7.1",
+        "dotenv": "^16.0.0",
+        "node-fetch": "^3.2.10"
+    },
+    "devDependencies": {
+        "@types/node": "^18.11.18",
+        "@typescript-eslint/eslint-plugin": "^5.10.2",
+        "@typescript-eslint/parser": "^5.10.2",
+        "eslint": "^8.8.0",
+        "eslint-config-prettier": "^8.3.0",
+        "tslib": "^2.3.1",
+        "typescript": "^4.5.5"
+    }
 }

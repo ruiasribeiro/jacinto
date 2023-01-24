@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { Interaction } from "discord.js";
+import { Interaction, SlashCommandBuilder } from "discord.js";
 
 import * as help from "../embeds/help.js";
 
